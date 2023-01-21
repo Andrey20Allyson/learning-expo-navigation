@@ -1,9 +1,9 @@
 import { View, Text, StyleSheet } from 'react-native';
 import NavigationButton from '../components/NavigationButton';
 
-import { ScreenProps } from "../types";
+import { RootParamList, ScreenProps } from "../types";
 
-export default function BaseScreen(props: ScreenProps<'Screen One'>) {
+export default function BaseScreen(props: ScreenProps<keyof RootParamList>) {
   return (
     <View style={styles.container}>
       <Text style={styles.text}>Screen One</Text>

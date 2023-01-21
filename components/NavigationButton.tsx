@@ -1,10 +1,21 @@
 import { useState } from "react";
-import { GestureResponderEvent, Pressable, Text, StyleSheet } from "react-native";
+import { GestureResponderEvent, Pressable, Text, StyleSheet, StyleProp, ViewStyle } from "react-native";
+import { RootParamList } from "../types";
 
-export default function NavigationButton(props: { screenName: string, onPress?: (ev: GestureResponderEvent) => void }) {
+export interface NavigationButtonProps {
+  screenName: keyof RootParamList;
+  onPress?: (ev: GestureResponderEvent) => void
+}
+
+export default function NavigationButton({
+  screenName,
+  onPress
+}: NavigationButtonProps) {
   let [pressed, setPressed] = useState(false);
 
-  function touchStart(ev: GestureResponderEvent) {
+  const stylesArray: StyleProp<ViewStyle> = [styles.body];
+
+  const touchStart = (ev: GestureResponderEvent) => {
     setPressed(true);
   }
 
@@ -12,13 +23,16 @@ export default function NavigationButton(props: { screenName: string, onPress?: 
     setPressed(false);
   }
 
+  if (pressed) stylesArray.push(styles.bodyPressed);
+
   return (
     <Pressable 
-      style={{...styles.body, ...(pressed? styles.bodyPressed: {})}}
-      onTouchStart={touchStart}
-      onTouchEnd={touchEnd}
-      onPress={props.onPress}>
-      <Text style={styles.text}>Go to {props.screenName}</Text>
+      style={stylesArray}
+      onPressIn={touchStart}
+      onPressOut={touchEnd}
+      onPress={onPress}
+      android_ripple={{color: '#ffffff5f'}}>
+      <Text style={styles.text}>Go to {screenName}</Text>
     </Pressable>
   );
 }
@@ -28,17 +42,22 @@ export const styles = StyleSheet.create({
     backgroundColor: '#44f',
     padding: 4,
     borderRadius: 3,
-    borderBottomWidth: 2,
-    borderRightWidth: 2,
-    borderColor: '#22b',
+    borderWidth: 2,
+    borderBottomColor: '#22f',
+    borderRightColor: '#22f',
+    borderTopColor: '#44f',
+    borderLeftColor: '#44f',
     borderStyle: 'solid',
-    right: 2,
-    bottom: 2
+    margin: 5
   },
   bodyPressed: {
-    
-    borderRightWidth: 0,
-    borderBottomWidth: 0
+    borderBottomColor: '#44f',
+    borderRightColor: '#44f',
+    borderTopWidth: 0,
+    borderLeftWidth: 0,
+    marginTop: 7,
+    marginLeft: 7,
+    borderWidth: 2
   },
   text: {
     color: '#fff',

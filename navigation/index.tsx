@@ -5,6 +5,7 @@ import { ColorSchemeName } from 'react-native';
 
 import ScreenOne from '../screens/ScreenOne';
 import ScreenTwo from '../screens/ScreenTwo';
+import ModalScreen from '../screens/ModalScreen';
 
 export default function Navigation(props: { colorScheme: NonNullable<ColorSchemeName> }) {
   return (
@@ -19,9 +20,12 @@ const Stack = createNativeStackNavigator<RootParamList>();
 
 export function Navigator() {
   return (
-    <Stack.Navigator screenOptions={{headerStyle: {backgroundColor: '#222'}, headerTintColor: '#fff'}}>
+    <Stack.Navigator initialRouteName='Screen Two' screenOptions={{headerStyle: {backgroundColor: '#222'}, headerTintColor: '#fff'}}>
       <Stack.Screen name='Screen One' component={ScreenOne}/>
       <Stack.Screen name='Screen Two' component={ScreenTwo}/>
+      <Stack.Group screenOptions={{ presentation: 'modal' }}>
+        <Stack.Screen name='Modal' component={ModalScreen}/>
+      </Stack.Group>
     </Stack.Navigator>
   )
 }

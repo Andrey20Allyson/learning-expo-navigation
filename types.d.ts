@@ -7,6 +7,7 @@ export type ScreenTwoParam = {
 export type RootParamList = {
   'Screen One': undefined;
   'Screen Two': ScreenTwoParam | undefined;
+  'Modal': undefined;
 }
 
 export type ScreenProps<Name extends keyof RootParamList> = NativeStackScreenProps<RootParamList, Name>;
